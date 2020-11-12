@@ -18,12 +18,11 @@ class Preprocessing:
         nltk.download('punkt')
         nltk.download('stopwords')
     
-    def csv_head(self):
+    def csv_head(self, dataset):
         """ 
         Prints the first 5 rows of each dataset 
         """
-        print(self.fake_news_dataset.head())
-        print(self.true_news_dataset.head())
+        print(dataset.head())
 
     def tokenize(self, text):
         """ 
@@ -56,9 +55,13 @@ class Preprocessing:
         return clean_text
 
     def clean_text(self, text):
+        print("Tokeninzing . . .")
         token = self.tokenize(text)
 
+        print("Removing stop words . . .")
         important_words = self.remove_stopwords(self.only_lowercased_letters(text))
+
+        print("Lemmas . . .")
         lemmas = self.lemmatize(important_words, token)
 
         return lemmas
