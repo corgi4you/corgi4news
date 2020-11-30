@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 import pandas as pd
 
+
 class Mongo:
 
     def __init__(self):
@@ -11,7 +12,7 @@ class Mongo:
 
     def read_mongo(self, collection, no_id=True):
         """
-        Reads all data from a Mongo collection 
+        Reads all data from a Mongo collection
         and stores into DataFrame
         """
         cursor = self.db[collection].find()

@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import nltk
 import re
 import spacy
@@ -19,21 +19,21 @@ class Preprocessing:
 
         nltk.download('punkt')
         nltk.download('stopwords')
-    
+
     def csv_head(self, dataset):
-        """ 
-        Prints the first 5 rows of each dataset 
+        """
+        Prints the first 5 rows of each dataset
         """
         print(dataset.head())
 
     def tokenize(self, text):
-        """ 
-        Tokenizes the text 
+        """
+        Tokenizes the text
         """
         return word_tokenize(text)
 
     def only_lowercased_letters(self, text):
-        """ 
+        """
         Removes all punctuation from the text and
         lowercases all words and letters
         """
@@ -52,7 +52,11 @@ class Preprocessing:
         Lemmatizes important words
         """
         spc_words = self.spc(important_words)
-        lemmas = [tokens.lemma_ if tokens.pos_ == 'VERB' else str(tokens) for tokens in spc_words]
+        lemmas = [
+            tokens.lemma_ if tokens.pos_ == 'VERB'
+            else str(tokens) for tokens in spc_words
+            ]
+
         clean_text = " ".join(lemmas)
         return clean_text
 
@@ -61,10 +65,11 @@ class Preprocessing:
         token = self.tokenize(text)
 
         print("Removing stop words . . .")
-        important_words = self.remove_stopwords(self.only_lowercased_letters(text))
+        important_words = self.remove_stopwords(
+            self.only_lowercased_letters(text)
+            )
 
         print("Lemmas . . .")
         lemmas = self.lemmatize(important_words, token)
 
         return lemmas
-
