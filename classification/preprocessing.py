@@ -5,13 +5,15 @@ import spacy
 
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+from data.mongo import Mongo
 
 
 class Preprocessing:
 
     def __init__(self):
-        self.fake_news_dataset = pd.read_csv("data/Fake.csv")
-        self.true_news_dataset = pd.read_csv("data/True.csv")
+        self.mongo = Mongo()
+        self.fake_news_dataset = self.mongo.read_mongo("fake_news")
+        self.real_news_dataset = self.mongo.read_mongo("real_news")
         self.stops = stopwords.words('english')
         self.spc = spacy.load('en_core_web_sm')
 
