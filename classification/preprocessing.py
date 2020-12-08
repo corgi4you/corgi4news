@@ -61,15 +61,12 @@ class Preprocessing:
         return clean_text
 
     def clean_text(self, text):
-        print("Tokeninzing . . .")
         token = self.tokenize(text)
 
-        print("Removing stop words . . .")
         important_words = self.remove_stopwords(
             self.only_lowercased_letters(text)
             )
 
-        print("Lemmas . . .")
         lemmas = self.lemmatize(important_words, token)
 
         return lemmas

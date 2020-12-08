@@ -20,3 +20,8 @@ class Mongo:
         if no_id:
             del df['_id']
         return df
+
+    def insert_into_collection(self, title, collection, column, data):
+        my_query = {"title": title}
+        new_value = {"$set": {column: data}}
+        self.db[collection].update(my_query, new_value)
