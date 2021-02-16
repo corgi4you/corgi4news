@@ -11,14 +11,19 @@ from data.mongo import Mongo
 class Preprocessing:
 
     def __init__(self):
-        self.mongo = Mongo()
-        self.fake_news_dataset = self.mongo.read_mongo("fake_news")
-        self.real_news_dataset = self.mongo.read_mongo("real_news")
-        self.stops = stopwords.words('english')
-        self.spc = spacy.load('en_core_web_sm')
-
         nltk.download('punkt')
         nltk.download('stopwords')
+
+        self.stops = stopwords.words('english')
+        # Run python -m spacy download en
+        self.spc = spacy.load('en_core_web_sm')    
+
+        self.mongo = Mongo()
+        self.fake_news_dataset = pd.read_csv("data/csv/Fake.csv")
+        self.real_news_dataset = pd.read_csv("data/csv/True.csv")
+        #self.fake_news_dataset = self.mongo.read_mongo("fake_news")
+        #self.real_news_dataset = self.mongo.read_mongo("real_news")
+            
 
     def csv_head(self, dataset):
         """

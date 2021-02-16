@@ -21,7 +21,7 @@ class Mongo:
             del df['_id']
         return df
 
-    def insert_into_collection(self, title, collection, column, data):
+    def insert_into_collection(self, title, collection, column_name, data):
         my_query = {"title": title}
-        new_value = {"$set": {column: data}}
-        self.db[collection].update(my_query, new_value)
+        new_value = {column_name: data}
+        self.db[collection].insert_one(new_value)

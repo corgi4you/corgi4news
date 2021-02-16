@@ -1,31 +1,65 @@
 from classification.preprocessing import Preprocessing
 from data.mongo import Mongo
 import pandas as pd
+import logging
 
-preprocessing = Preprocessing()
-mongo = Mongo()
+class Corgi4News:
 
-fake_news = preprocessing.fake_news_dataset
-real_news = preprocessing.real_news_dataset
+    def __init__(self):
+        self.preprocessing = Preprocessing()
+        self.mongo = Mongo()
+        self.fake_news = self.preprocessing.fake_news_dataset
+        self.real_news = self.preprocessing.real_news_dataset
 
-def preprocessing_and_saving_data(self, df_name, raw_column, new_column, query_data):
+        self.preprocessing_and_saving_data(
+            self.fake_news, 'fake_news', 'title', 'clean_title', 'title')
+        self.preprocessing_and_saving_data(
+            self.real_news, 'real_news', 'title', 'clean_title', 'title')
+        self.preprocessing_and_saving_data(
+            self.fake_news, 'fake_news', 'text', 'clean_text', 'title')
+        self.preprocessing_and_saving_data(
+            self.real_news, 'real_news', 'text', 'clean_text', 'title')
+
     """
-    Applies preprocessing function on a certain column
-    of a certain dataframe and stores the preprocessed
-    data on a new column in the respective MongoDB
-    collection of this dataframe.
-
-    df_name = dataframe/collection name
-    raw_column = name of the column that contains 
-    raw data
-    new_column = name of the column that will store 
-    preprocessed data
-    query_data = data that will be used in the query to 
-    store preprocessed data in the correct index
+    print("***FAKE NEWS***")
+    preprocessing.csv_head(fake_news)
+    print(fake_news['text'])
+    print("***REAL NEWS***")
+    preprocessing.csv_head(real_news)
+    fake_news['clean_text'] = fake_news['text'].apply(preprocessing.clean_text)
     """
 
-    df_name['new_column'] = df_name['raw_column'].apply(preprocessing.clean_text)
-    for index in range (len(df_name)):
-        mongo.insert_into_collection(df_name['query_data'][index],
-        "df_name", "new_column", df_name['new_column'][index])
-    print(f"{df_name} {new_column} done")
+    def preprocessing_and_saving_data(self, df, collection_name, raw_column_name, new_column_name, query_data):
+        """
+        Applies preprocessing function on a certain column
+        of a certain dataframe and stores the preprocessed
+        data on a new column in the respective MongoDB
+        collection of this dataframe.
+
+        df = dataframe
+        collection_name = name of the mongodb collection
+        raw_column_name = name of the column that contains 
+        raw data
+        new_column_name = name of the column that will store 
+        preprocessed data
+        query_data = data that will be used in the query to 
+        store preprocessed data in the correct index
+        """
+
+        df[new_column_name] = df[raw_column_name].apply(self.preprocessing.clean_text)
+        try:
+            for index in range (len(df)):
+                self.mongo.insert_into_collection(
+                    df[query_data][index],
+                    collection_name, 
+                    new_column_name, 
+                    df[new_column_name][index]
+                )
+            print("*****************************************")
+            print(f"{collection_name} {new_column_name} done.")
+            print("*****************************************")
+        except Exception as e:
+            logging.error('Failed to upload: '+ str(e))
+     
+if __name__ == "__main__":
+    corgi4news = Corgi4News()
