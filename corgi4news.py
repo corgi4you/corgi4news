@@ -20,15 +20,6 @@ class Corgi4News:
         self.preprocessing_and_saving_data(
             self.real_news, 'real_news', 'text', 'clean_text', 'title')
 
-    """
-    print("***FAKE NEWS***")
-    preprocessing.csv_head(fake_news)
-    print(fake_news['text'])
-    print("***REAL NEWS***")
-    preprocessing.csv_head(real_news)
-    fake_news['clean_text'] = fake_news['text'].apply(preprocessing.clean_text)
-    """
-
     def preprocessing_and_saving_data(self, df, collection_name, raw_column_name, new_column_name, query_data):
         """
         Applies preprocessing function on a certain column
